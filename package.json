@@ -14,7 +14,8 @@
     "build-storybook": "build-storybook",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "generate-ts": "node ./scripts/generate-ts-from-supabase.sh"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.5.6",

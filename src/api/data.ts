@@ -1,3 +1,5 @@
+// TODO: Generate
+
 import { TDriveType, TRiderType, TWheelSize } from './enums'
 
 export interface IBike {
