@@ -35,7 +35,7 @@ module.exports = {
           ['^@?\\w'],
 
           // separate root ~/ imports
-          ['^~?\\w'],
+          ['^~/?\\w'],
 
           // separate './' and '../' imports
           ['^\\../'],

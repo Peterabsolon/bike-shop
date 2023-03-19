@@ -1,12 +1,12 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 
-import { runMockServer } from './Dashboard.mocks'
-import { IDashboardServerSideProps } from './Dashboard.types'
-
 // import { authOptions } from '~/api/auth/[...nextauth]'
 import { config } from '~/config'
 import { app } from '~/store'
+
+import { runMockServer } from './Dashboard.mocks'
+import { IDashboardServerSideProps } from './Dashboard.types'
 
 if (config.USE_MOCKS) {
   runMockServer()
@@ -27,7 +27,7 @@ export const DashboardPage = observer((_props: IDashboardServerSideProps) => {
 
       {/* <div>{JSON.stringify(app.session)}</div> */}
 
-      <button onClick={() => app.logout()}>Logout</button>
+      <button onClick={() => app.auth.logout()}>Logout</button>
     </div>
   )
 })

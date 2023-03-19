@@ -13,7 +13,7 @@ export const SignInPage = observer(() => {
     <div>
       <h1 className="text-3xl font-bold">Sign in</h1>
 
-      <button onClick={app.loginWithGithub}>Github login</button>
+      <button onClick={app.auth.loginWithGithub}>Github login</button>
     </div>
   )
 })

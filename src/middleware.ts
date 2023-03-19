@@ -11,6 +11,10 @@ export async function middleware(req: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession()
 
+  console.log('middleware session', session)
+
+  return res
+
   if (session) {
     return res
   }

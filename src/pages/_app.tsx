@@ -3,8 +3,9 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useEffect } from 'react'
 
-import '~/global.css'
 import { app } from '~/store'
+
+import '~/global.css'
 
 export default function App({ Component, pageProps: { ...pageProps } }: AppProps) {
   useEffect(() => {

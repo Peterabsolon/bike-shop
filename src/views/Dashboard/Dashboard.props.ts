@@ -1,21 +1,12 @@
-// import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { GetServerSideProps } from 'next'
-
-// import { mocks } from './Dashboard.mocks'
-import { IDashboardServerSideProps } from './Dashboard.types'
 
 import { config } from '~/config'
 import { ROUTES } from '~/constants'
 import { is404 } from '~/utils'
 
+import { IDashboardServerSideProps } from './Dashboard.types'
+
 export const getServerSideProps: GetServerSideProps<IDashboardServerSideProps> = async () => {
-  // const supabase = createServerSupabaseClient(ctx)
-  // const {
-  //   data: { session },
-  // } = await supabase.auth.getSession()
-
-  // console.log({ session })
-
   if (config.USE_MOCKS) {
     return { props: {} }
   }
