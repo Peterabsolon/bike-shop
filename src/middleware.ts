@@ -1,19 +1,27 @@
-/**
- * Protects private routes with next-auth middleware
- */
+import { createMiddlewareSupabaseClient } from '@supabase/auth-helpers-nextjs'
+import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
-export { default } from 'next-auth/middleware'
+import { ROUTES } from './constants'
+
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next()
+  const supabase = createMiddlewareSupabaseClient({ req, res })
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (session) {
+    return res
+  }
+
+  const redirectUrl = req.nextUrl.clone()
+  redirectUrl.pathname = ROUTES.SIGNIN
+  redirectUrl.searchParams.set(`redirectedFrom`, req.nextUrl.pathname)
+
+  return NextResponse.redirect(redirectUrl)
+}
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - auth (public auth pages)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    '/((?!api|_next/static|_next/image|favicon.ico|auth).*)',
-  ],
+  matcher: '/((?!api|_next/static|_next/image|favicon.ico|auth).*)',
 }

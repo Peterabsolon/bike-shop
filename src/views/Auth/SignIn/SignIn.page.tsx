@@ -1,37 +1,45 @@
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { observer } from 'mobx-react-lite'
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
-import { getServerSession } from 'next-auth'
-import { getProviders, signIn } from 'next-auth/react'
+import { GetServerSidePropsContext } from 'next'
 import React from 'react'
 
-import { authOptions } from '~/config'
 import { ROUTES } from '~/constants'
+import { app } from '~/store'
 
-export const SignInPage = observer(({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+// import { ROUTES } from '~/constants'
+
+export const SignInPage = observer(() => {
   return (
     <div>
       <h1 className="text-3xl font-bold">Sign in</h1>
 
-      {providers &&
-        Object.values(providers).map((provider) => (
-          <div key={provider.name}>
-            <button onClick={() => signIn(provider.id)}>Sign in with {provider.name}</button>
-          </div>
-        ))}
+      <button onClick={app.loginWithGithub}>Github login</button>
     </div>
   )
 })
 
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  // Forward if logged in already
-  const session = await getServerSession(context.req, context.res, authOptions)
-  if (session) {
-    return { redirect: { destination: ROUTES.DASHBOARD } }
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  try {
+    // Forward if logged in already
+    const supabase = createServerSupabaseClient(ctx)
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+
+    if (session) {
+      return { redirect: { destination: ROUTES.DASHBOARD } }
+    }
+
+    console.log({ session })
+
+    return { props: {} }
+  } catch (e) {
+    console.log({ e })
   }
 
-  const providers = await getProviders()
+  // const providers = await getProviders()
 
   return {
-    props: { providers: providers ?? [] },
+    props: { providers: [] },
   }
 }
